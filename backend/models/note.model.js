@@ -8,7 +8,7 @@ const noteSchema = new Schema({
     tags: { type: [String], default: [] },
     isPinned: { type: Boolean, default: false },
     userId: { type: String, required: true },
-    createdOn: { type: Date, default:new Date().getDate()},  
+    createdOn: { type: Date, default: Date.now },  
 });
 
 module.exports = mongoose.model("Note", noteSchema);

@@ -150,18 +150,18 @@ app.put("/edit-note/:noteId", authenticateToken, async (req, res) => {
 });
 
 app.get("/get-all-notes", authenticateToken, async (req, res) => {
-
-    const {user}=req.user;
-
-    try{
-        const  notes=await Note.find({userId:user._id,}).sort({isPinned:-1});
-         
-        return res.json({error:false,notes,message:"All notes retriverd succesfully"});
-    }catch{
-        return res.status(500).json({error:true,message:"internal server error"});
+    const { user } = req.user;
+ 
+  
+    try {
+      const notes = await Note.find({ userId: user._id.toString() }).sort({ isPinned: -1 });
+      return res.json({ error: false, notes, message: "All notes retrieved successfully" });
+    } catch {
+      return res.status(500).json({ error: true, message: "Internal server error" });
     }
+  });
 
-});
+
 
 app.delete("/delete-note/:notesId", authenticateToken, async (req, res) => {
 

@@ -5,7 +5,6 @@ import AddEditNotes from "./AddEditNotes";
 import { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import axiosInstance from "../../utils/axiosInstance";
 
 const Home = () => {
@@ -30,13 +29,18 @@ const Home = () => {
     } finally {
       setLoading(false);
     }
+
+
   };
 
+
+  
+
   useEffect(() => {
+
     getUserInfo();
-    return () => {
-      // Cancel the request when the component is unmounted
-      axiosInstance.cancelToken?.cancel();
+
+  return () => {
     };
   }, []);
 

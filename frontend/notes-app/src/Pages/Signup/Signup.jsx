@@ -16,29 +16,31 @@ const Signup = () => {
 
   const handleSignup = async (e) => {
     e.preventDefault();
-
-    if (!username) {
+    if (!username.trim()) {
       setError("Please enter your name");
       return;
     }
-    if (!validateEmail(email)) {
+    if (!validateEmail(email.trim())) {
       setError("Please enter a valid email");
       return;
     }
-    if (!password) {
+    if (!password.trim()) {
       setError("Please enter your password");
       return;
     }
+    
 
     setError("");
 
     // Your signup logic here
     try {
+      
       const response = await axiosInstance.post('/create-account', {
         fullName: username,
         email: email,
         password: password,
-      }); // <--- Added closing parenthesis
+      });
+       // <--- Added closing parenthesis
   
       if (response.data && response.data.error) {
         setError(response.data.message);
@@ -56,6 +58,7 @@ const Signup = () => {
         setError("An unexpected error occured. Please try again");
       }
     }
+    
   };
 
   return (
@@ -89,9 +92,8 @@ const Signup = () => {
 
             {error && <p className='text-red-500 text-xs pb-1'>{error}</p>} 
             
-            <button type="submit" className="btn-primary">
-              Signup
-            </button>
+            <button type="submit" className="btn-primary">Signup</button>
+
             
             <p className="text-sm text-center mt-4">
               Already have an account?{' '}
