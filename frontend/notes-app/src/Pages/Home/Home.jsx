@@ -10,6 +10,7 @@ import axiosInstance from "../../utils/axiosInstance";
 const Home = () => {
   const [openAddEditModal, setOpenAddEditModal] = useState({ isShown: false, type: "add", data: null });
   const [userInfo, setUserInfo] = useState(null);
+  const [Allnotes, setAllNotes] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -18,6 +19,7 @@ const Home = () => {
     setLoading(true);
     try {
       const response = await axiosInstance.get("/get-user");
+
       if (response.data && response.data.user) {
         setUserInfo(response.data.user);
       }
@@ -34,10 +36,24 @@ const Home = () => {
   };
 
 
+  const getAllNotes=async ()=>{
+    try{
+      const response=await axiosInstance.get("/get-all-notes");
+      if(response.data&& response.data.notes){
+        setAllNotes(response.data.notes);
+      }
+
+    }catch(error){
+      console.log("An unexpected error.")
+
+    }
+  }
+
+
   
 
   useEffect(() => {
-
+    getAllNotes(); 
     getUserInfo();
 
   return () => {
