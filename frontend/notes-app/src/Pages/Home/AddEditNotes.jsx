@@ -1,9 +1,9 @@
 import { useState } from "react";
 import TagInput from "../../components/input/TagInput";
-import { MdClose } from "react-icons/md";
+import { MdAccessAlarm, MdClose, MdSentimentSatisfied } from "react-icons/md";
 import axiosInstance from "../../utils/axiosInstance";
 
-const AddEditNotes = ({ noteData,type,getAllNotes,onClose }) => {
+const AddEditNotes = ({ noteData,type,getAllNotes,onClose,showToastMessage }) => {
   
   const [title, setTitle] = useState(noteData?.title || "");
   const [content, setContent] = useState(noteData?.content || "");
@@ -23,6 +23,7 @@ const AddEditNotes = ({ noteData,type,getAllNotes,onClose }) => {
         });
     
         if (response.data && response.data.note) {
+          showToastMessage("Note Added Succesfully");
           getAllNotes()
           onClose()
         }
@@ -36,7 +37,7 @@ const AddEditNotes = ({ noteData,type,getAllNotes,onClose }) => {
       }
     };
     
-
+//edit node
   const editNote=async ()=>{
     const noteId=noteData._id
     try {
@@ -47,8 +48,9 @@ const AddEditNotes = ({ noteData,type,getAllNotes,onClose }) => {
       });
   
       if (response.data && response.data.note) {
-        getAllNotes()
-        onClose()
+        showToastMessage("Note Updated Succesfully");
+        getAllNotes();
+        onClose();
       }
     } catch (error) {
      if(error.response &&
@@ -136,3 +138,6 @@ const AddEditNotes = ({ noteData,type,getAllNotes,onClose }) => {
 
 
 export default AddEditNotes;
+
+
+
