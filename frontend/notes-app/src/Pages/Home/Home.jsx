@@ -117,6 +117,30 @@ const onSearchNote =async (query)=>{
 
 }
   
+const handleClearSearch =async ()=>{
+  setIsSearch(false);
+  getAllNotes();
+};
+
+const updateIsPinned = async (noteData)=>{
+  const noteId=noteData._id
+    try {
+      const response = await axiosInstance.put("/update-note-pinned/" + noteId , 
+      {
+        isPinned: !noteId.isPinned,
+      });
+  
+      if (response.data && response.data.note) {
+        showToastMessage("Note Updated Succesfully");
+        getAllNotes();
+       
+      }
+    } catch (error) {
+      console.log(error);
+    }
+
+}
+
 
   useEffect(() => {
     getAllNotes(); 
@@ -139,7 +163,7 @@ const onSearchNote =async (query)=>{
 
   return (
     <>
-      <Navbar userInfo={userInfo}  onSearchNote={onSearchNote} />
+      <Navbar userInfo={userInfo}  onSearchNote={onSearchNote}  handleClearSearch={handleClearSearch}/>
         <div className="container mx-auto">
           {allNotes.length>0 ?(<div className="grid grid-cols-3 gap-4 mt-8">
           {allNotes.map((item,index)=>(
@@ -152,7 +176,7 @@ const onSearchNote =async (query)=>{
              isPinned={item.isPinned}
              onEdit={() => handleEdit(item)}
              onDelete={() => {deleteNode(item)}}
-             onPinNote={() => {}}
+             onPinNote={() => {updateIsPinned(item)}}
            />
 
           ))};
