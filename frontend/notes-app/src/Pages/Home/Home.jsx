@@ -6,6 +6,12 @@ import { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../utils/axiosInstance";
+import Toast from "../../components/ToastMessage/Toast";
+<<<<<<< HEAD
+import EmptyCard from "../../components/EmptyCard/EmptyCard";
+import noteImg from "../../assets/add-note-svgrepo-com.svg";
+=======
+>>>>>>> 72b80133b3d5ed467af29664470097280d01a14a
 
 const Home = () => {
   const [openAddEditModal, setOpenAddEditModal] = useState({ isShown: false, type: "add", data: null });
@@ -13,6 +19,56 @@ const Home = () => {
   const [allNotes, setAllNotes] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [isSearch,setIsSearch]=useState(false);
+
+
+  
+  const [showToastMsg,setShowToastMsg]=useState({
+    isShown: false,
+    message:"",
+    type:"add",
+  });
+
+  const showToastMessage=(message,type)=>{
+    setShowToastMsg({
+      isShown:true,
+      message,
+      type,
+    });
+  };
+
+  const handleCloseToast=()=>{
+    setShowToastMsg({
+      isShown:false,
+      message:"",
+    });
+  };
+
+
+
+
+  
+  const [showToastMsg,setShowToastMsg]=useState({
+    isShown: false,
+    message:"",
+    type:"add",
+  });
+
+  const showToastMessage=(message,type)=>{
+    setShowToastMsg({
+      isShown:true,
+      message,
+      type,
+    });
+  };
+
+  const handleCloseToast=()=>{
+    setShowToastMsg({
+      isShown:false,
+      message:"",
+    });
+  };
+
 
   const handleEdit = (noteDetails)=>{
     setOpenAddEditModal({isShown:true,type:"edit",data:noteDetails})
@@ -53,9 +109,49 @@ const Home = () => {
     }
   }
 
+//delete a node
+const deleteNode=async (data)=>{
+  const noteId=data._id;
+<<<<<<< HEAD
+   try {
+    const response = await axiosInstance.delete("/delete-note/" + noteId);
 
+=======
 
+  
+  try {
+    const response = await axiosInstance.delete("/delete-note/" + noteId);
 
+>>>>>>> 72b80133b3d5ed467af29664470097280d01a14a
+    if (response.data && !response.data.error) {
+      showToastMessage("Note deleted Succesfully",'delete');
+      getAllNotes();
+    }
+  } catch (error) {
+   if(error.response &&
+     error.response.data && 
+     error.response.data.message
+    ){
+      console.log("An unexpected error.")
+    }
+  }
+}
+
+const onSearchNote =async (query)=>{
+  try{
+    const response=await axiosInstance.get("/search-notes",{
+      params: { query }, // Pass the query parameter here
+      
+  });
+  if(response.data && response.data.notes){
+    setIsSearch(true);
+    setAllNotes(response.data.notes);
+  }
+}catch(error){
+  console.log(error);
+}
+
+}
   
 
   useEffect(() => {
@@ -91,7 +187,11 @@ const Home = () => {
              tags={item.tags}
              isPinned={item.isPinned}
              onEdit={() => handleEdit(item)}
-             onDelete={() => {}}
+<<<<<<< HEAD
+             onDelete={() => {deleteNode(item)}}
+=======
+             onDelete={() => deleteNode(item)}
+>>>>>>> 72b80133b3d5ed467af29664470097280d01a14a
              onPinNote={() => {}}
            />
 
