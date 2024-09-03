@@ -2,5 +2,8 @@
   "dependencies": {
     "gsap": "^3.12.5",
     "prop-types": "^15.8.1"
+  },
+  "devDependencies": {
+    "vite": "^5.4.2"
   }
 }
